@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6: Quote Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <%- include("partials/header.ejs") %>
+    <form action="/searchByKeyword" method="GET">
+        Keyword: <input type="text" name="Keyword">
+        <button>Search by Keyword</button>
+    </form>
+    <br>
+    <form action="/searchByAuthor" method="GET">
+        Author: 
+        <select>
+            <% for(let i of authors) { %>
+                <option value="<%=i.authorId %>"><%=i.firstName%> <%=i.lastName%></option>
+            <%}%>
+        </select>
+    </form>
+    <br>
+    <%- include("partials/footer.ejs") %>
+</body>
+
+</html>
