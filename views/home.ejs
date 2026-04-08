@@ -11,7 +11,7 @@
 <body>
 
     <%- include("partials/header.ejs") %>
-    <form action="/searchByKeyword" method="GET">
+    <form id="searchByKeywordForm" action="/searchByKeyword" method="GET">
         Keyword: <input type="text" name="Keyword">
         <button>Search by Keyword</button>
     </form>
@@ -26,6 +26,18 @@
     </form>
     <br>
     <%- include("partials/footer.ejs") %>
+
+    <script>
+        document.querySelector("#searchByKeywordForm").addEventListener("submit", validateKeyword);
+
+        function validateKeyword(){
+            let keyword = document.querySelector("input[name = Keyword]").value;
+            if(keyword.length < 3){
+                alert("Keyword must be at least 3 characters");
+                event.preventDefault(); //prevents the form submission
+            }
+        }
+    </script>
 </body>
 
 </html>
