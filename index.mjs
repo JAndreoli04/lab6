@@ -28,8 +28,23 @@ app.get('/', async (req, res) => {
 
 app.get('/searchByAuthor', async (req, res) => {
     let authorId = req.query.authorId;
-    let sql = ``;
-    const [rows] = await pool.query(sql);
+    let sql = `SELECT quote, authors.authorId, firstName, lastName 
+               FROM quotes
+               NATURAL JOIN authors
+               WHERE authorId = ?`;
+    let sqlParams = [authorId];
+    const [rows] = await pool.query(sql, sqlParams);
+   res.render('quotes.ejs', {rows});
+});
+
+app.get('/searchByCategory', async (req, res) => {
+    let category = req.query.category;
+    let sql = `SELECT quote, authors.authorId, firstName, lastName
+               FROM quotes 
+               NATURAL JOIN authors
+               WHERE category = ?`;
+    let sqlParams = [category];
+    const [rows] = await pool.query(sql, sqlParams);
    res.render('quotes.ejs', {rows});
 });
 
@@ -38,9 +53,9 @@ app.get('/searchByAuthor', async (req, res) => {
 app.get("/searchByKeyword", async(req, res) => {
    try {
         let keyword = req.query.Keyword;
-        let sql = `SELECT quote, firstName, lastName 
+    let sql = `SELECT quote, authors.authorId, firstName, lastName 
                     FROM quotes
-                    NATRUAL JOIN authors
+                    NATURAL JOIN authors
                     WHERE quote LIKE ? `;
         let sqlParams = [`%${keyword}%`];
         const [rows] = await pool.query(sql, sqlParams);
@@ -49,7 +64,37 @@ app.get("/searchByKeyword", async(req, res) => {
         console.error("Database error:", err);
         res.status(500).send("Database error!");
     }
-});//dbTest
+});//
+
+app.get("/searchByMostLikes", async(req, res) => {
+   try {
+        // let keyword = req.query.Keyword;
+    let sql = `SELECT quote, authors.authorId, firstName, lastName 
+                    FROM quotes
+                    NATURAL JOIN authors 
+                    ORDER BY likes DESC`;
+
+        const [rows] = await pool.query(sql);
+        res.render("quotes.ejs", {rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error!");
+    }
+});//
+
+app.get("/searchByLeastLikes", async(req, res) => {
+   try {
+    let sql = `SELECT quote, authors.authorId, firstName, lastName 
+                    FROM quotes
+                    NATURAL JOIN authors 
+                    ORDER BY likes`;
+        const [rows] = await pool.query(sql);
+        res.render("quotes.ejs", {rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error!");
+    }
+});//
 
 app.get("/dbTest", async(req, res) => {
    try {

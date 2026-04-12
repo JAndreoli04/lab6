@@ -5,39 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 6: Quote Finder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 <body>
 
     <%- include("partials/header.ejs") %>
-    <form id="searchByKeywordForm" action="/searchByKeyword" method="GET">
-        Keyword: <input type="text" name="Keyword">
-        <button>Search by Keyword</button>
-    </form>
-    <br>
-    <form action="/searchByAuthor" method="GET">
-        Author: 
-        <select>
-            <% for(let i of authors) { %>
-                <option value="<%=i.authorId %>"><%=i.firstName%> <%=i.lastName%></option>
-            <%}%>
-        </select>
-    </form>
-    <br>
-    <%- include("partials/footer.ejs") %>
+        <form id="searchByKeywordForm" action="/searchByKeyword" method="GET">
+            Keyword: <input type="text" name="Keyword">
+            <button>Search by Keyword</button>
+        </form>
+        <br>
+        <form id="searchByCategory" action="/searchByCategory" method="GET">
+            Category:
+            <select name="category">
+                <% for(let i of category){ %>
+                    <option value="<%=i.category%>">
+                        <%=i.category%>
+                    </option>
+                    <% } %>
+            </select>
+            <button>Search by Category</button>
+        </form>
+        <br>
+        <form action="/searchByAuthor" method="GET">
+            Author:
+            <select>
+                <% for(let i of authors) { %>
+                    <option value="<%=i.authorId%>">
+                        <%=i.firstName%>
+                            <%=i.lastName%>
+                    </option>
+                    <%}%>
+            </select>
+            <button>Search by Author</button>
+        </form>
+        <br>
+        <div>
+            <form action="/searchByMostLikes">
+                <button>Search By Most Likes</button>
+            </form>
+            <form action="/searchByLeastLikes">
+                <button>Search By Least Likes</button>
+            </form>
+        </div>
 
-    <script>
-        document.querySelector("#searchByKeywordForm").addEventListener("submit", validateKeyword);
+        <%- include("partials/footer.ejs") %>
 
-        function validateKeyword(){
-            let keyword = document.querySelector("input[name = Keyword]").value;
-            if(keyword.length < 3){
-                alert("Keyword must be at least 3 characters");
-                event.preventDefault(); //prevents the form submission
-            }
-        }
-    </script>
+            <script>
+                document.querySelector("#searchByKeywordForm").addEventListener("submit", validateKeyword);
+
+                function validateKeyword() {
+                    let keyword = document.querySelector("input[name = Keyword]").value;
+                    if (keyword.length < 3) {
+                        alert("Keyword must be at least 3 characters");
+                        event.preventDefault(); //prevents the form submission
+                    }
+                }
+            </script>
 </body>
 
 </html>
