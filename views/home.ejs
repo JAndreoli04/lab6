@@ -15,6 +15,7 @@
         <form id="searchByKeywordForm" action="/searchByKeyword" method="GET">
             Keyword: <input type="text" name="Keyword">
             <button>Search by Keyword</button>
+            <p id="keywordAlert"></p>
         </form>
         <br>
         <form id="searchByCategory" action="/searchByCategory" method="GET">
@@ -58,8 +59,11 @@
 
                 function validateKeyword() {
                     let keyword = document.querySelector("input[name = Keyword]").value;
+                    let alert = document.querySelector("#keywordAlert");
+                    
                     if (keyword.length < 3) {
-                        alert("Keyword must be at least 3 characters");
+                        alert.textContent = "Keyword length must be 3 or more characters";
+                        alert.style.color = "red";
                         event.preventDefault(); //prevents the form submission
                     }
                 }
